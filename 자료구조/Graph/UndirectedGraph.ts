@@ -31,10 +31,44 @@ class UndirectedGraph {
     }
     delete this.adjacencyList[vertex];
   }
+
+  dfs(startVertex: string) {
+    const result: string[] = [];
+    const visited: {
+      [key: string]: boolean;
+    } = {};
+    const thisList = this.adjacencyList;
+
+    (function helperDfs(vertex: string) {
+      if (!vertex) return null;
+      visited[vertex] = true;
+      result.push(vertex);
+      thisList[vertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          return helperDfs(neighbor);
+        }
+      });
+    })(startVertex);
+
+    return result;
+  }
 }
 
 const newGraph = new UndirectedGraph();
 
-newGraph.addVertex('zzz');
-
 console.log(newGraph, '?');
+
+newGraph.addVertex('A');
+newGraph.addVertex('B');
+newGraph.addVertex('C');
+newGraph.addVertex('D');
+newGraph.addVertex('E');
+newGraph.addVertex('F');
+
+newGraph.addEdge('A', 'B');
+newGraph.addEdge('A', 'C');
+newGraph.addEdge('B', 'D');
+newGraph.addEdge('D', 'E');
+newGraph.addEdge('E', 'F');
+
+console.log(newGraph.dfs('A'));
