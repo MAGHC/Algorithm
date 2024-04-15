@@ -32,7 +32,26 @@ class UndirectedGraph {
     delete this.adjacencyList[vertex];
   }
 
-  dfs(startVertex: string) {
+  dfsIterative(start: string) {
+    const stack = [start];
+    const res: string[] = [];
+    const visited: Record<string, boolean> = {};
+    visited[start] = true;
+
+    while (stack.length) {
+      let cur: string = stack.pop()!;
+      res.push(cur);
+      this.adjacencyList[cur].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor);
+        }
+      });
+    }
+    return res;
+  }
+
+  dfsRecursive(startVertex: string) {
     const result: string[] = [];
     const visited: {
       [key: string]: boolean;
@@ -71,4 +90,4 @@ newGraph.addEdge('B', 'D');
 newGraph.addEdge('D', 'E');
 newGraph.addEdge('E', 'F');
 
-console.log(newGraph.dfs('A'));
+console.log(newGraph.dfsIterative('A'));
