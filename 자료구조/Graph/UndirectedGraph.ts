@@ -71,6 +71,29 @@ class UndirectedGraph {
 
     return result;
   }
+
+  bfs(start: string) {
+    const queue = [start];
+    const res: string[] = [];
+    const visited: {
+      [key: string]: boolean;
+    } = {};
+
+    visited[start] = true;
+
+    while (queue.length) {
+      let cur: string = queue.shift()!;
+      res.push(cur);
+
+      this.adjacencyList[cur].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      });
+    }
+    return res;
+  }
 }
 
 const newGraph = new UndirectedGraph();
@@ -87,7 +110,9 @@ newGraph.addVertex('F');
 newGraph.addEdge('A', 'B');
 newGraph.addEdge('A', 'C');
 newGraph.addEdge('B', 'D');
+newGraph.addEdge('C', 'E');
 newGraph.addEdge('D', 'E');
+newGraph.addEdge('D', 'F');
 newGraph.addEdge('E', 'F');
 
-console.log(newGraph.dfsIterative('A'));
+console.log(newGraph.bfs('A'));
