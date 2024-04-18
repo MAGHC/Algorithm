@@ -3,6 +3,11 @@ interface WeightedGraphItem {
   weight: number;
 }
 
+interface QueueItme {
+  val: string;
+  priority: number;
+}
+
 class WeightedGraph {
   private adjacencyList: {
     [key: string]: WeightedGraphItem[];
@@ -31,3 +36,21 @@ g.addVertex('C');
 g.addEdge('A', 'B', 5);
 g.addEdge('A', 'C', 9);
 g.addEdge('B', 'C', 7);
+
+class PrioirtyQueue {
+  private values: QueueItme[];
+  constructor() {
+    this.values = [];
+  }
+
+  enqueue(val: string, priority: number) {
+    this.values.push({ val, priority });
+    this.sort();
+  }
+  dequeue() {
+    return this.values.shift();
+  }
+  sort() {
+    this.values.sort((a, b) => a.priority - b.priority);
+  }
+}
